@@ -1,0 +1,28 @@
+name: RRDB_DESRGAN
+suffix: ~  # add suffix to saved images
+model: sr
+distortion: sr
+scale: 1
+crop_border: ~  # crop border when evaluation. If None(~), crop the scale pixels
+gpu_ids: [0]
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: set5
+    mode: LQGT
+    dataroot_GT: /home/lin/handwritten_and_print/test
+    dataroot_LQ: /home/lin/handwritten_and_print/test
+
+
+#### network structures
+network_G:
+  which_model_G: RRDBNet
+  in_nc: 3
+  out_nc: 3
+  nf: 64
+  nb: 16
+  upscale: 4
+
+#### path
+path:
+  pretrain_model_G: /home/lin/desrgan_0.1_laplace_split_print_latest_G.pth  # Put your model path here

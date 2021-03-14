@@ -1,0 +1,75 @@
+#### general settings
+name: 001_RRDB
+use_tb_logger: true
+model: sr
+distortion: sr
+scale: 1
+gpu_ids: [0]
+
+#### datasets
+datasets:
+  train:
+    name: handwritten_and_print_train
+    mode: LQGT
+    dataroot_GT: /home/lin/train_data/train_hr
+    dataroot_LQ: /home/lin/train_data/train_lr
+
+    use_shuffle: true
+    n_workers: 6  # per GPU
+    batch_size: 16
+    GT_size: 32
+    use_flip: true
+    use_rot: true
+    color: RGB
+  val:
+    name: handwritten_and_print_val
+    mode: LQGT
+    dataroot_GT: /home/lin/train_data/val_hr
+    dataroot_LQ: /home/lin/train_data/val_lr
+
+#### network structures
+network_G:
+  which_model_G: RRDBNet
+  in_nc: 3
+  out_nc: 3
+  nf: 64
+  nb: 16
+  upscale: 1
+
+#### path
+path:
+  pretrain_model_G: ~
+  strict_load: true
+  resume_state: ~
+
+#### training settings: learning rate scheme, loss
+train:
+  lr_G: !!float 2e-4
+  lr_scheme: MultiStepLR
+  lr_gamma: 0.5
+  beta1: 0.9
+  beta2: 0.99
+  niter: 400000
+#  niter: 1000000
+  warmup_iter: -1  # no warm up
+  lr_steps: [200000]
+#  lr_steps: [200000, 400000, 600000, 800000]
+  eta_min: !!float 1e-7
+
+  pixel_criterion: l1 #content loss
+  pixel_weight: !!float 1e-2
+
+  # Gradient Loss
+  gradient_type: laplace
+  gradient_criterion: l2
+  gradient_weight: !!float 1e-1
+  gradient_grid_horizontal: 3
+  gradient_grid_vertical: 3
+
+  manual_seed: 10
+  val_freq: !!float 5e3
+
+#### logger
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 5e3
