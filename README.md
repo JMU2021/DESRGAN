@@ -9,7 +9,7 @@ This is the official implementation of the "Separating printing Chinese characte
 - NVIDIA GPU + [CUDA](https://developer.nvidia.com/cuda-downloads)
 - [Deformable Convolution](https://arxiv.org/abs/1703.06211). We use [mmdetection](https://github.com/open-mmlab/mmdetection)'s dcn implementation. Please first compile it.
   
-  ```
+  ```bash
   cd ./codes/models/archs/dcn
   python setup.py develop
   ```
@@ -18,7 +18,7 @@ This is the official implementation of the "Separating printing Chinese characte
 ## Training and Testing
 Modify the configuration files under `./codes/options/train` and `./codes/options/test`, then train or test model using:
 
-```python
+```bash
 python ./codes/train.py -opt ./codes/options/train/train_DESRGAN.yml
 python ./codes/test.py -opt ./codes/options/test/test_DESRGAN.yml
 ```
